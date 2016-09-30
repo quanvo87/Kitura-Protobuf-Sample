@@ -5,33 +5,34 @@ import Protobuf
 // Create a new router
 let router = Router()
 
+var myLibrary = MyLibrary()
+
 // Handle HTTP GET requests to /
-router.get("/v1/book/protobuf") {
+router.get("/v1/book") {
     request, response, next in
     
     let b = BookInfo(id: 303, title: "The Odyssey", author: "Homer")
     
-    let data = try b.serializeProtobuf()
-    let jsonBook = try b.serializeJSON()
+    guard let acceptType = request.headers["Accept"] else {
+        let jsonBook = try b.serializeJSON()
+        response.send(jsonBook)
+        next()
+        return
+    }
     
-    response.send(data: data)
-    
-    // response.send("Hello, World!")
+    switch request.headers["Accept"]! {
+        case "application/json":
+            let jsonBook = try b.serializeJSON()
+            response.send(jsonBook)
+        case "application/octet-stream":
+            let data = try b.serializeProtobuf()
+            response.send(data: data)
+        default:
+            let jsonBook = try b.serializeJSON()
+            response.send(jsonBook)
+    }
 
     next()
-}
-
-router.get("/v1/book/json") {
-    request, response, next in
-    
-    let b = BookInfo(id: 303, title: "The Odyssey", author: "Homer")
-    
-    let jsonBook = try b.serializeJSON()
-
-    response.send(jsonBook)
-    
-    next()
-
 }
 
 router.post("/v1/book") {
@@ -56,13 +57,12 @@ router.post("/v1/book") {
         default: return
     }
     
+    myLibrary.books.append(book)
+    
 }
 
 
-// Add an HTTP server and connect it to the router
 Kitura.addHTTPServer(onPort: 8090, with: router)
-
-// Start the Kitura runloop (this call never returns)
 Kitura.run()
 
 
