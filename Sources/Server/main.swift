@@ -2,10 +2,13 @@ import Kitura
 import Web
 import Protobuf
 
+
 // Create a new router
 let router = Router()
 
 var myLibrary = MyLibrary()
+
+router.all("/", middleware: BodyParser())
 
 // Handle HTTP GET requests to /
 router.get("/v1/book") {
@@ -20,7 +23,7 @@ router.get("/v1/book") {
         return
     }
     
-    switch request.headers["Accept"]! {
+    switch acceptType {
         case "application/json":
             let jsonBook = try b.serializeJSON()
             response.send(jsonBook)
@@ -53,11 +56,13 @@ router.post("/v1/book") {
     
     switch body {
         case .raw(let raw):       book = try BookInfo.init(protobuf: raw)
-        case .text(let json):     book = try BookInfo.init(json: json)
+        case .json(let json):     book = try BookInfo.init(json: json.rawString()!)
         default: return
     }
     
     myLibrary.books.append(book)
+    response.status(.OK).send("Added book \(book.id)")
+    next()
     
 }
 
