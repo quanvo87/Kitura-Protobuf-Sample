@@ -1,11 +1,12 @@
 import Kitura
 import Web
+import Protobuf
 
 // Create a new router
 let router = Router()
 
 // Handle HTTP GET requests to /
-router.get("/protobuf") {
+router.get("/v1/book/protobuf") {
     request, response, next in
     
     let b = BookInfo(id: 303, title: "The Odyssey", author: "Homer")
@@ -20,7 +21,7 @@ router.get("/protobuf") {
     next()
 }
 
-router.get("/json") {
+router.get("/v1/book/json") {
     request, response, next in
     
     let b = BookInfo(id: 303, title: "The Odyssey", author: "Homer")
@@ -31,6 +32,30 @@ router.get("/json") {
     
     next()
 
+}
+
+router.post("/v1/book") {
+    request, response, next in
+    
+    guard let contentType = request.headers["Content-Type"] else {
+        response.status(.badRequest)
+        next()
+        return
+    }
+    
+    guard let body = request.body else {
+        next()
+        return
+    }
+    
+    let book: BookInfo
+    
+    switch body {
+        case .raw(let raw):       book = try BookInfo.init(protobuf: raw)
+        case .text(let json):     book = try BookInfo.init(json: json)
+        default: return
+    }
+    
 }
 
 
