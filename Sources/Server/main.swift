@@ -12,7 +12,8 @@ router.get("/") {
     
     let data = try b.serializeProtobuf()
     
-    response.send("Hello, World!")
+    response.send(data: data)
+    // response.send("Hello, World!")
 
     next()
 }
