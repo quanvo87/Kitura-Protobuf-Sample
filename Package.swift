@@ -12,7 +12,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .Package(url: "https://github.com/apple/swift-protobuf-runtime.git", Version(0,9,23)),
+        .Package(url: "https://github.com/apple/swift-protobuf-runtime.git", Version(0,9,22)),
         .Package(url: "https://github.com/IBM-Swift/Kitura", Version(1,0,0))
     ]
 )
