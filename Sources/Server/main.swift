@@ -1,6 +1,6 @@
 import Kitura
 import Web
-import Protobuf
+import SwiftProtobuf
 
 
 // Create a new router
