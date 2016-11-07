@@ -48,6 +48,7 @@ router.post("/v1/book") {
     }
     
     guard let body = request.body else {
+        response.send("If application/octet-stream, this won't work.")
         next()
         return
     }
