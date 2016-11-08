@@ -1,6 +1,7 @@
 import Kitura
 import Web
 import SwiftProtobuf
+import Foundation
 
 
 // Create a new router
@@ -47,18 +48,28 @@ router.post("/v1/book") {
         return
     }
     
-    guard let body = request.body else {
-        response.send("If application/octet-stream, this won't work.")
-        next()
-        return
-    }
-    
     let book: BookInfo
     
-    switch body {
-        case .raw(let raw):       book = try BookInfo.init(protobuf: raw)
-        case .json(let json):     book = try BookInfo.init(json: json.rawString()!)
-        default: return
+    switch contentType {
+    case "application/octet-stream":
+        var data = Data()
+        _ = try request.read(into: &data)
+        book = try BookInfo.init(protobuf: data)
+        break
+    case "application/json":
+        guard let body = request.body,
+            case let .json(data) = body,
+            let jsonString = data.rawString() else {
+                response.status(.badRequest)
+                next()
+                return
+        }
+        book = try BookInfo.init(json: jsonString)
+        break
+    default:
+        response.status(.badRequest)
+        next()
+        return
     }
     
     myLibrary.books.append(book)
