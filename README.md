@@ -1,22 +1,26 @@
-# Kitura Protocol Buffers Demo
+# Kitura Protocol Buffers Sample
 
-A simple server demonstrating how to integrate Kitura with Protobufs. 
+A simple Kitura server demonstrating how to integrate Protobufs. 
 
 See the blog tutorial, [Protocol Buffers in your Kitura Apps](https://developer.ibm.com/swift/2016/09/30/protocol-buffers-with-kitura/) for more details.
 
 
 ## Getting Started:
 
-  1. Install `protoc`
+  1. Install the `protoc` protobuf compiler:
   
     - With Homebrew using `brew install protobuf-swift`
     - On Linux, [Download the latest](https://developers.google.com/protocol-buffers/docs/downloads)
     
   2. Install the Swift protobuf plugin:
   
-    https://github.com/apple/swift-protobuf/
+    Go to https://github.com/apple/swift-protobuf/, and following the instructions.
     
   3. Run Swift build
+  
+    ```
+    swift build
+    ```
   
   
     
