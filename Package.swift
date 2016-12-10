@@ -1,7 +1,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "ProtocolBufferFunToy",
+    name: "KituraProtobufSample",
     targets: [
         Target(
             name: "Server",
