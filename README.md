@@ -1,5 +1,7 @@
 # Kitura Protocol Buffers Sample
 
+🚫 This project is no longer maintained.
+
 A simple Kitura server demonstrating how to integrate Protobufs. 
 
 See the blog tutorial, [Protocol Buffers in your Kitura Apps](https://developer.ibm.com/swift/2016/09/30/protocol-buffers-with-kitura/) for more details.
