@@ -1,6 +1,6 @@
-# Kitura Protocol Buffers Sample
+# 🚫 This project is no longer maintained.
 
-🚫 This project is no longer maintained.
+# Kitura Protocol Buffers Sample
 
 A simple Kitura server demonstrating how to integrate Protobufs. 
 
